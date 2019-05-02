@@ -1,0 +1,26 @@
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.form {
+  min-width: 500px;
+  max-width: 500px;
+  width: 500px;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.user-input {
+  display:inline;
+}
+
+.password-input {
+  display: inline;
+}
+
+app-inpur-row {
+  width: 100%;
+}
