@@ -3,6 +3,7 @@
 
     <div class="form-group" fxLayout="row" fxLayoutAlign="center center">
       <app-inpur-row matIcon="people" placeholder="Please enter your username" type="text" formControlName="username"></app-inpur-row>
+      <div *ngIf="!formGroup.controls['username'].valid">Error Max length</div>
     </div>
     <div class="form-group" fxLayout="row" fxLayoutAlign="center center">
       <app-inpur-row matIcon="security" placeholder="Please enter your password" type="password" formControlName="password"></app-inpur-row>

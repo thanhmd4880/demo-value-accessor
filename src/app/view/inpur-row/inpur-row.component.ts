@@ -16,42 +16,34 @@ export const INPUT_VALUE_ACCESSOR: any = {
   styleUrls: ['./inpur-row.component.css']
 })
 export class InpurRowComponent implements OnInit, ControlValueAccessor {
-  formGroup: FormGroup;
-  // tslint:disable-next-line:no-input-rename
-  @Input('formControlName') formControl: string;
   @Input() matIcon: string;
   @Input() placeholder: string;
   @Input() type: string;
-
   @ViewChild('input') input;
 
-  constructor(private renderer: Renderer2, private controlContainer: ControlContainer) {
+  private propagateChange = (_: any) => { };
+
+  constructor(private renderer: Renderer2) {
   }
 
   ngOnInit() {
-    this.formGroup = this.controlContainer.control as FormGroup;
   }
 
   registerOnChange( fn: any ): void {
-    // this.onChange = fn;
+    this.propagateChange = fn;
   }
 
   registerOnTouched( fn: any ): void {
     // this.onTouched = fn;
   }
 
-  // setDisabledState( isDisabled: boolean ): void {
-  //   const input = this.input.nativeElement;
-  //   const action = isDisabled ? 'addClass' : 'removeClass';
-  //   this.renderer[action](input, 'disabled');
-
-  // }
-
   writeValue( value: any ): void {
-    // const input = this.input.nativeElement;
-    // this.renderer.setProperty(input, 'value', value );
+    const input = this.input.nativeElement;
+    this.renderer.setProperty(input, 'value', value );
   }
 
-
+  onChange(value) {
+    this.propagateChange(value);
+  }
 
 }
