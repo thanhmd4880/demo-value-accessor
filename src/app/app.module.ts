@@ -10,10 +10,13 @@ import {MatIconModule} from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatButtonModule} from '@angular/material/button';
 import {InpurRowComponent} from './view/inpur-row/inpur-row.component';
+import { SelectInputComponent } from './view/select-input/select-input.component';
+import {MatSelectModule} from '@angular/material';
 @NgModule({
   declarations: [
     AppComponent,
-    InpurRowComponent
+    InpurRowComponent,
+    SelectInputComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +26,8 @@ import {InpurRowComponent} from './view/inpur-row/inpur-row.component';
     MatInputModule,
     MatIconModule,
     FlexLayoutModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

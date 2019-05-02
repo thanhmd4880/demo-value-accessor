@@ -6,7 +6,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   formGroup: FormGroup;
   constructor() {
   }
@@ -14,7 +14,8 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     this.formGroup = new FormGroup({
       username: new FormControl('aaa', [Validators.maxLength(6)]),
-      password: new FormControl('sd')
+      password: new FormControl('sd'),
+      select: new FormControl(2, [Validators.required])
     });
 
     this.formGroup.valueChanges.subscribe((changes) => {

@@ -1,5 +1,5 @@
 import {Component, forwardRef, Input, OnInit, Renderer2, ViewChild} from '@angular/core';
-import { ControlContainer, ControlValueAccessor, FormGroup} from '@angular/forms';
+import { ControlValueAccessor} from '@angular/forms';
 
 import {NG_VALUE_ACCESSOR } from '@angular/forms';
 
