@@ -3,10 +3,9 @@
 
     <div class="form-group" fxLayout="row" fxLayoutAlign="center center">
       <app-inpur-row matIcon="people" placeholder="Please enter your username" type="text" formControlName="username"></app-inpur-row>
-    </div>
-
-    <div class="form-group" fxLayout="row" fxLayoutAlign="">
-      <mat-error *ngIf="!formGroup.controls['username'].valid">Error Max length</mat-error>
+      <div class="form-group" fxLayout="row" fxLayoutAlign="">
+        <mat-error *ngIf="!formGroup.controls['username'].valid">Error Max length</mat-error>
+      </div>
     </div>
 
     <div class="form-group" fxLayout="row" fxLayoutAlign="center center">
@@ -15,14 +14,16 @@
 
     <div class="form-group" fxLayout="row" fxLayoutAlign="center center">
       <app-select-input class="full-width" matIcon="fastfood" placeholder="Please choose your favorite food" formControlName="select"></app-select-input>
+      <div class="form-group" fxLayout="row" fxLayoutAlign="">
+        <mat-error *ngIf="!formGroup.controls['select'].valid">Please select a food</mat-error>
+      </div>
     </div>
 
-    <div class="form-group" fxLayout="row" fxLayoutAlign="">
-      <mat-error *ngIf="!formGroup.controls['select'].valid">Please select a food</mat-error>
+    <div class="form-group" fxLayout="row" fxLayoutAlign="center center">
+      <app-app-custom-date-time formControlName="dateValue"></app-app-custom-date-time>
     </div>
 
     <button button="submit" mat-raised-button color="primary">Login</button>
-
 
   </div>
 </div>

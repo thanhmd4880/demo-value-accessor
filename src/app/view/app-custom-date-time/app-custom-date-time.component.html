@@ -1,0 +1,19 @@
+<div class="form-control" fxLayout="column" fxLayoutAlign="center center">
+  <mat-form-field class="full-width">
+    <mat-label>Start date</mat-label>
+    <mat-select [(value)]="selectedOption" (selectionChange)="onChangeOption()">
+      <mat-option *ngFor="let option of dateOptions" [value]="option.id">
+        {{option.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="full-width" *ngIf="(selectedOption === 'custom')">
+    <input #dateInput matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="selectedDate" (dateInput)="onChange(dateInput.value)">
+    <mat-datepicker-toggle matSuffix [for]="picker">
+      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+    </mat-datepicker-toggle>
+    <mat-datepicker #picker ></mat-datepicker>
+  </mat-form-field>
+</div>
+

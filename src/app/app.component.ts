@@ -15,7 +15,9 @@ export class AppComponent implements OnInit {
     this.formGroup = new FormGroup({
       username: new FormControl('aaa', [Validators.maxLength(6)]),
       password: new FormControl('sd'),
-      select: new FormControl(2, [Validators.required])
+      select: new FormControl(2, [Validators.required]),
+      // dateOption: new FormControl('today'),
+      dateValue: new FormControl(new Date(2019, 0, 3))
     });
 
     this.formGroup.valueChanges.subscribe((changes) => {

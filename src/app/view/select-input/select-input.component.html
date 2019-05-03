@@ -1,9 +1,9 @@
 <div class="form-control" fxLayout="row" fxLayoutAlign="center center">
   <mat-icon fxFlex="10%">{{matIcon}}</mat-icon>
   <mat-form-field class="full-width" fxFlex="90%">
-    <mat-label>Favorite food</mat-label>
-    <mat-select (selectionChange)="onChange(select.value)" #select [(value)]="selectedValue" placeholder="{{placeholder}}">
-      <mat-option>
+    <mat-label>Please select a food</mat-label>
+    <mat-select (selectionChange)="onChange(select.value)" #select [(value)]="selectedValue">
+      <mat-option [value]="null">
         -- Select a food --
       </mat-option>
       <mat-option *ngFor="let food of foods" [value]="food.id">
