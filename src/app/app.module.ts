@@ -9,18 +9,25 @@ import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatButtonModule} from '@angular/material/button';
-import {InpurRowComponent} from './view/inpur-row/inpur-row.component';
-import { SelectInputComponent } from './view/select-input/select-input.component';
 import {MatDatepickerModule, MatSelectModule} from '@angular/material';
-import { AppCustomDateTimeComponent } from './view/app-custom-date-time/app-custom-date-time.component';
-
 import {MatNativeDateModule } from '@angular/material';
+import {RouterModule, Routes} from '@angular/router';
+import {AuthGuardService} from './auth/auth-guard.service';
+import { Info2Component } from './view/info2/info2.component';
+
+const appRoutes: Routes = [
+  { path: 'login', loadChildren: './view/login/login.module#LoginModule' },
+  { path: 'info', loadChildren: './view/info/info.module#InfoModule', canActivate: [AuthGuardService]},
+  { path: 'info2', loadChildren: './view/info2/info2.module#InfoModule', canActivate: [AuthGuardService]},
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', redirectTo: '/info', pathMatch: 'full' }
+];
+
+
 @NgModule({
   declarations: [
     AppComponent,
-    InpurRowComponent,
-    SelectInputComponent,
-    AppCustomDateTimeComponent
+    Info2Component,
   ],
   imports: [
     BrowserModule,
@@ -34,7 +41,8 @@ import {MatNativeDateModule } from '@angular/material';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    FormsModule
+    FormsModule,
+    RouterModule.forRoot(appRoutes, { enableTracing: true })
   ],
   providers: [MatDatepickerModule],
   bootstrap: [AppComponent]

@@ -1,0 +1,32 @@
+<div fxLayout="col" fxLayoutGap="50px" fxLayoutAlign="center center" class="container" (submit)="onSubmit()">
+  <div class="form" [formGroup]="formGroup">
+
+    <div class="form-group" fxLayout="row" fxLayoutAlign="center center">
+      <app-inpur-row matIcon="people" placeholder="Please enter your username" type="text" formControlName="username"></app-inpur-row>
+      <div class="form-group" fxLayout="row" fxLayoutAlign="">
+        <mat-error *ngIf="!formGroup.controls['username'].valid">Error Max length</mat-error>
+      </div>
+    </div>
+
+    <div class="form-group" fxLayout="row" fxLayoutAlign="center center">
+      <app-inpur-row matIcon="security" placeholder="Please enter your password" type="password" formControlName="password"></app-inpur-row>
+    </div>
+
+    <!--    <div class="form-group" fxLayout="row" fxLayoutAlign="center center">-->
+    <!--      <app-select-input class="full-width" matIcon="fastfood" placeholder="Please choose your favorite food" formControlName="select"></app-select-input>-->
+    <!--      <div class="form-group" fxLayout="row" fxLayoutAlign="">-->
+    <!--        <mat-error *ngIf="!formGroup.controls['select'].valid">Please select a food</mat-error>-->
+    <!--      </div>-->
+    <!--    </div>-->
+
+    <!--    <div class="form-group" fxLayout="row" fxLayoutAlign="center center">-->
+    <!--      <app-app-custom-date-time formControlName="dateValue"></app-app-custom-date-time>-->
+    <!--    </div>-->
+
+    <div class="form-group"  fxLayout="row" fxLayoutAlign="center center">
+      <button type="submit" mat-raised-button color="primary">Login</button>
+    </div>
+
+
+  </div>
+</div>
