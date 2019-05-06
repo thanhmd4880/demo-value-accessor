@@ -13,10 +13,7 @@ import {MatDatepickerModule, MatSelectModule} from '@angular/material';
 import {MatNativeDateModule } from '@angular/material';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthGuardService} from './auth/auth-guard.service';
-import { Info2Component } from './view/info2/info2.component';
 import {LoginService} from './auth/login.service';
-import {InfoModule} from './view/info/info.module';
-import {InfoModule2} from './view/info2/info2.module';
 
 const appRoutes: Routes = [
   { path: 'login', loadChildren: './view/login/login.module#LoginModule'},
