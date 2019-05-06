@@ -1,16 +1,16 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
-import {InfoComponent} from './info.component';
+import {Info2Component} from './info2.component';
 import {LoginService} from '../../auth/login.service';
 
 const routes: Routes = [
-  {path: '', component: InfoComponent}
+  {path: '', component: Info2Component}
 ];
 
 @NgModule({
   declarations: [
-    InfoComponent
+    Info2Component
   ],
   imports: [
     CommonModule,
@@ -19,4 +19,4 @@ const routes: Routes = [
   providers: [LoginService],
   exports: []
 })
-export class InfoModule { }
+export class InfoModule2 { }

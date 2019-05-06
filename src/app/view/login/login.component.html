@@ -1,5 +1,5 @@
 <div fxLayout="col" fxLayoutGap="50px" fxLayoutAlign="center center" class="container" (submit)="onSubmit()">
-  <div class="form" [formGroup]="formGroup">
+  <form class="form" [formGroup]="formGroup">
 
     <div class="form-group" fxLayout="row" fxLayoutAlign="center center">
       <app-inpur-row matIcon="people" placeholder="Please enter your username" type="text" formControlName="username"></app-inpur-row>
@@ -28,5 +28,5 @@
     </div>
 
 
-  </div>
+  </form>
 </div>

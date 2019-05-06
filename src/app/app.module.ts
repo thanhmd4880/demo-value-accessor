@@ -14,11 +14,12 @@ import {MatNativeDateModule } from '@angular/material';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthGuardService} from './auth/auth-guard.service';
 import { Info2Component } from './view/info2/info2.component';
+import {LoginService} from './auth/login.service';
 
 const appRoutes: Routes = [
-  { path: 'login', loadChildren: './view/login/login.module#LoginModule' },
-  { path: 'info', loadChildren: './view/info/info.module#InfoModule', canActivate: [AuthGuardService]},
-  { path: 'info2', loadChildren: './view/info2/info2.module#InfoModule', canActivate: [AuthGuardService]},
+  { path: 'login', loadChildren: './view/login/login.module#LoginModule'},
+  { path: 'info2', loadChildren: './view/info2/info2.module#InfoModule2', canActivate: [AuthGuardService], canLoad: [AuthGuardService]},
+  { path: 'info', loadChildren: './view/info/info.module#InfoModule', canActivate: [AuthGuardService], canLoad: [AuthGuardService]},
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/info', pathMatch: 'full' }
 ];
@@ -26,8 +27,7 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent,
-    Info2Component,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -42,9 +42,9 @@ const appRoutes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     FormsModule,
-    RouterModule.forRoot(appRoutes, { enableTracing: true })
+    RouterModule.forRoot(appRoutes)
   ],
-  providers: [MatDatepickerModule],
+  providers: [MatDatepickerModule, LoginService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
