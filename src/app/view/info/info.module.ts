@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {InfoComponent} from './info.component';
-import {LoginService} from '../../auth/login.service';
+
 
 const routes: Routes = [
   {path: '', component: InfoComponent}
@@ -16,7 +16,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes)
   ],
-  providers: [LoginService],
+  providers: [],
   exports: []
 })
 export class InfoModule { }

@@ -20,13 +20,17 @@ export class LoginService {
     return this.user.username;
   }
   constructor() {
-    console.log("")
+    console.log("Init !");
     this.isAuthenticated = false;
+    if (localStorage.getItem('isAuthenticated')) {
+      this.isAuthenticated = JSON.parse(localStorage.getItem('isAuthenticated'));
+    }
   }
 
   login(username, password) {
     if (username === this.user.username && password === this.user.password) {
       this.isAuthenticated = true;
+      localStorage.setItem('isAuthenticated', JSON.stringify(true));
       return of(true);
     }
     return  of(false);
@@ -46,5 +50,6 @@ export class LoginService {
 
   logOut() {
     this.isAuthenticated = false;
+    localStorage.setItem('isAuthenticated', JSON.stringify(false));
   }
 }

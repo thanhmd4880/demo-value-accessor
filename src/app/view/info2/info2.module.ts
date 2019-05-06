@@ -16,7 +16,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes)
   ],
-  providers: [LoginService],
+  providers: [],
   exports: []
 })
 export class InfoModule2 { }

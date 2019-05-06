@@ -16,7 +16,7 @@ export class InfoComponent implements OnInit {
   }
 
   logOut() {
-    if (this.login.isAuthenticated) {
+    if (this.login.isLogIn()) {
       this.login.logOut();
     }
 

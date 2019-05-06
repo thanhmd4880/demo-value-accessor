@@ -15,6 +15,8 @@ import {RouterModule, Routes} from '@angular/router';
 import {AuthGuardService} from './auth/auth-guard.service';
 import { Info2Component } from './view/info2/info2.component';
 import {LoginService} from './auth/login.service';
+import {InfoModule} from './view/info/info.module';
+import {InfoModule2} from './view/info2/info2.module';
 
 const appRoutes: Routes = [
   { path: 'login', loadChildren: './view/login/login.module#LoginModule'},
@@ -44,7 +46,7 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [MatDatepickerModule, LoginService ],
+  providers: [MatDatepickerModule, LoginService, AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
