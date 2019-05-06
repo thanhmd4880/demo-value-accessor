@@ -13,6 +13,8 @@ import {UserRoles} from '../../auth/login.service';
 export class LoginComponent implements OnInit {
   formGroup: FormGroup;
   constructor(private  login: LoginService, private router: Router) {
+    console.log('login');
+
   }
 
   ngOnInit(): void {

@@ -9,7 +9,9 @@ import {Router} from '@angular/router';
 })
 export class Info2Component implements OnInit {
 
-  constructor(private login: LoginService, private router: Router) { }
+  constructor(private login: LoginService, private router: Router) {
+    console.log('aaa');
+  }
 
   ngOnInit() {
 

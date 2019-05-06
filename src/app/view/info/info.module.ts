@@ -19,4 +19,8 @@ const routes: Routes = [
   providers: [],
   exports: []
 })
-export class InfoModule { }
+export class InfoModule {
+  constructor() {
+    console.log('info');
+  }
+}

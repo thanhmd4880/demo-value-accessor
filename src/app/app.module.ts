@@ -14,6 +14,9 @@ import {MatNativeDateModule } from '@angular/material';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthGuardService} from './auth/auth-guard.service';
 import {LoginService} from './auth/login.service';
+import {Info2Component} from './view/info2/info2.component';
+import {AppCustomDateTimeComponent} from './view/app-custom-date-time/app-custom-date-time.component';
+import {SelectInputComponent} from './view/select-input/select-input.component';
 
 const appRoutes: Routes = [
   { path: 'login', loadChildren: './view/login/login.module#LoginModule'},
@@ -43,7 +46,9 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [MatDatepickerModule, LoginService, AuthGuardService],
+  providers: [MatDatepickerModule],
+  exports: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

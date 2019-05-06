@@ -13,14 +13,13 @@ export class LoginService {
       name: 'Thanh',
       username: 'dmthanh',
       password: '123',
-      role: [UserRoles.Info, UserRoles.Info2]
+      role: [UserRoles.Info]
     };
 
   get userName() {
     return this.user.username;
   }
   constructor() {
-    console.log("Init !");
     this.isAuthenticated = false;
     if (localStorage.getItem('isAuthenticated')) {
       this.isAuthenticated = JSON.parse(localStorage.getItem('isAuthenticated'));
