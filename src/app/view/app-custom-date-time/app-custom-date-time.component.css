@@ -3,6 +3,34 @@
 }
 
 .full-width {
-  display: block;
   width: 100%;
+}
+
+.date_custom_field {
+  position: relative;
+}
+
+.date_picker {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.icon_picker {
+  font-size: 20px;
+}
+
+.custom-select {
+  font-size: 20px;
+}
+
+.custom_date_container {
+  width: 100%;
+}
+
+::ng-deep.mat-form-field-suffix  {
+  width: 50px !important;
+}
+.no-padding {
+  width: 0;
 }

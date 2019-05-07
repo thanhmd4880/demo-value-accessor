@@ -12,16 +12,16 @@
       <app-inpur-row matIcon="security" placeholder="Please enter your password" type="password" formControlName="password"></app-inpur-row>
     </div>
 
-        <div class="form-group" fxLayout="row" fxLayoutAlign="center center">
-          <app-select-input class="full-width" matIcon="fastfood" placeholder="Please choose your favorite food" formControlName="select"></app-select-input>
-          <div class="form-group" fxLayout="row" fxLayoutAlign="">
-            <mat-error *ngIf="!formGroup.controls['select'].valid">Please select a food</mat-error>
-          </div>
-        </div>
+<!--    <div class="form-group" fxLayout="row" fxLayoutAlign="center center">-->
+<!--      <app-select-input class="full-width" matIcon="fastfood" placeholder="Please choose your favorite food" formControlName="select"></app-select-input>-->
+<!--      <div class="form-group" fxLayout="row" fxLayoutAlign="">-->
+<!--        <mat-error *ngIf="!formGroup.controls['select'].valid">Please select a food</mat-error>-->
+<!--      </div>-->
+<!--    </div>-->
 
-        <div class="form-group" fxLayout="row" fxLayoutAlign="center center">
-          <app-app-custom-date-time formControlName="dateValue"></app-app-custom-date-time>
-        </div>
+    <div class="form-group" fxLayout="row" fxLayoutAlign="center center">
+      <app-app-custom-date-time formControlName="dateValue"></app-app-custom-date-time>
+    </div>
 
     <div class="form-group"  fxLayout="row" fxLayoutAlign="center center">
       <button type="submit" mat-raised-button color="primary">Login</button>

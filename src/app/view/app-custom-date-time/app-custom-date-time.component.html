@@ -8,12 +8,35 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field class="full-width" *ngIf="(selectedOption === 'custom')">
-    <input #dateInput matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="selectedDate" (dateInput)="onChange(dateInput.value)">
-    <mat-datepicker-toggle matSuffix [for]="picker">
-      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-    </mat-datepicker-toggle>
-    <mat-datepicker #picker ></mat-datepicker>
-  </mat-form-field>
+  <div class="custom_date_container">
+    <mat-form-field class="full-width date_custom_field" *ngIf="(selectedOption === 'custom')">
+      <input
+        #dateInput matInput
+        [matDatepicker]="picker"
+        placeholder="Choose a date"
+        [(ngModel)]="selectedDate"
+        (dateInput)="onChange(dateInput.value)"
+      >
+
+      <mat-datepicker-toggle class="icon_picker" matSuffix [for]="picker">
+      </mat-datepicker-toggle>
+
+      <mat-select matSuffix #select class="no-padding" [(ngModel)]="time" (selectionChange)="onChangeTime(select.value)">
+        <mat-option value="7:00">7:00</mat-option>
+        <mat-option value="7:30">7:30</mat-option>
+        <mat-option value="8:00">8:00</mat-option>
+        <mat-option value="8:30">8:30</mat-option>
+        <mat-option value="9:00">9:00</mat-option>
+        <mat-option value="9:30">9:30</mat-option>
+        <mat-option value="10:00">10:00</mat-option>
+      </mat-select>
+
+      <mat-datepicker class="date_picker" #picker ></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+
+
+
 </div>
 

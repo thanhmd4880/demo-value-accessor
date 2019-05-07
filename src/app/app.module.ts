@@ -13,10 +13,7 @@ import {MatDatepickerModule, MatSelectModule} from '@angular/material';
 import {MatNativeDateModule } from '@angular/material';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthGuardService} from './auth/auth-guard.service';
-import {LoginService} from './auth/login.service';
-import {Info2Component} from './view/info2/info2.component';
-import {AppCustomDateTimeComponent} from './view/app-custom-date-time/app-custom-date-time.component';
-import {SelectInputComponent} from './view/select-input/select-input.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 const appRoutes: Routes = [
   { path: 'login', loadChildren: './view/login/login.module#LoginModule'},
@@ -34,6 +31,8 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     ReactiveFormsModule,
+    FormsModule,
+    RouterModule.forRoot(appRoutes),
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -42,11 +41,9 @@ const appRoutes: Routes = [
     MatButtonModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule,
-    FormsModule,
-    RouterModule.forRoot(appRoutes)
+    MatNativeDateModule
   ],
-  providers: [MatDatepickerModule],
+  providers: [],
   exports: [
   ],
   bootstrap: [AppComponent]

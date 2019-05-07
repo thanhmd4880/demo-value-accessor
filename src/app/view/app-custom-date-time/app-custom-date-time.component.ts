@@ -1,5 +1,9 @@
-import {Component, forwardRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, forwardRef, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
+import * as moment from 'moment';
 
 export const SELECT_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -7,9 +11,25 @@ export const SELECT_VALUE_ACCESSOR: any = {
   multi: true,
 };
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/DD/YYYY HH:mm',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
 @Component({
   selector: 'app-app-custom-date-time',
-  providers: [SELECT_VALUE_ACCESSOR],
+  providers: [
+    SELECT_VALUE_ACCESSOR,
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
   templateUrl: './app-custom-date-time.component.html',
   styleUrls: ['./app-custom-date-time.component.css']
 })
@@ -25,8 +45,10 @@ export class AppCustomDateTimeComponent implements OnInit, ControlValueAccessor 
     {id: 'custom', name: 'Custom'}
   ];
 
+  time = '';
+
   selectedOption = 'today';
-  selectedDate = new Date();
+  selectedDate = moment();
 
   private propagateChange = (_: any) => { };
 
@@ -55,12 +77,18 @@ export class AppCustomDateTimeComponent implements OnInit, ControlValueAccessor 
   onChangeOption() {
     const now = new Date();
     switch (this.selectedOption) {
-      case 'today': this.selectedDate =  now; break;
-      case 'yesterday': this.selectedDate = new Date(new Date().setDate(now.getDate() - 1)); break;
-      case 'lastWeek': this.selectedDate = new Date(new Date().setDate(now.getDate() - 7)); break;
-      default: this.selectedDate = now;
+      case 'today': this.selectedDate =  moment(now); break;
+      case 'yesterday': this.selectedDate = moment(new Date(new Date().setDate(now.getDate() - 1))); break;
+      case 'lastWeek': this.selectedDate = moment(new Date(new Date().setDate(now.getDate() - 7))); break;
+      default: this.selectedDate =  moment(now); break;
     }
-
   }
 
+  onChangeTime(value: any) {
+    console.log(value);
+    const [hour, minute] = this.time.split(':');
+    this.selectedDate = moment().hour(+hour).minute(+minute);
+
+    this.propagateChange(this.selectedDate.toDate());
+  }
 }
