@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoginService} from '../../auth/login.service';
 import {Router} from '@angular/router';
 import {UserRoles} from '../../auth/login.service';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
       username: new FormControl('dmthanh', [Validators.maxLength(20)]),
       password: new FormControl('123'),
       select: new FormControl(2, [Validators.required]),
-      dateValue: new FormControl(new Date(2019, 0, 3))
+      dateValue: new FormControl(moment(new Date(2019, 0, 3)))
     });
 
     this.formGroup.valueChanges.subscribe((changes) => {

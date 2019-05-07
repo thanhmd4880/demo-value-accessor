@@ -13,10 +13,14 @@
       <input
         #dateInput matInput
         [matDatepicker]="picker"
-        placeholder="Choose a date"
+        placeholder="Custom Date Time"
         [(ngModel)]="selectedDate"
         (dateInput)="onChange(dateInput.value)"
+        (input)="onChange(dateInput.value)"
+        autocomplete="off"
       >
+
+      <mat-error *ngIf="true">Invalid field</mat-error>
 
       <mat-datepicker-toggle class="icon_picker" matSuffix [for]="picker">
       </mat-datepicker-toggle>

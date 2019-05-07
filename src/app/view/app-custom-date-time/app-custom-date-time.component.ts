@@ -1,4 +1,4 @@
-import {Component, forwardRef, OnInit} from '@angular/core';
+import {Component, forwardRef, OnInit, ViewChild} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -46,16 +46,19 @@ export class AppCustomDateTimeComponent implements OnInit, ControlValueAccessor 
   ];
 
   time = '';
-
   selectedOption = 'today';
-  selectedDate = moment();
+  selectedDate: any;
+
+  @ViewChild('dateInput') dateInput;
 
   private propagateChange = (_: any) => { };
 
   constructor() {
+    this.selectedDate = moment();
   }
 
   ngOnInit() {
+    this.propagateChange(this.selectedDate);
   }
 
   registerOnChange( fn: any ): void {
@@ -67,11 +70,16 @@ export class AppCustomDateTimeComponent implements OnInit, ControlValueAccessor 
   }
 
   writeValue( value: any ): void {
-    this.selectedDate = value;
+    this.selectedDate = moment(value);
   }
 
   onChange(value) {
-    this.propagateChange(value);
+    // this.dateInput.value = value;
+    if (moment(value, 'MM/DD/YYYY HH:mm', true).isValid()) {
+      this.selectedDate = moment(value);
+      this.propagateChange(this.selectedDate);
+    }
+
   }
 
   onChangeOption() {
@@ -87,8 +95,8 @@ export class AppCustomDateTimeComponent implements OnInit, ControlValueAccessor 
   onChangeTime(value: any) {
     console.log(value);
     const [hour, minute] = this.time.split(':');
-    this.selectedDate = moment().hour(+hour).minute(+minute);
+    this.selectedDate = moment(this.selectedDate).hour(+hour).minute(+minute);
 
-    this.propagateChange(this.selectedDate.toDate());
+    this.propagateChange(this.selectedDate);
   }
 }
