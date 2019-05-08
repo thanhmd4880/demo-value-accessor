@@ -11,13 +11,12 @@
   <div class="custom_date_container">
     <mat-form-field class="full-width date_custom_field" *ngIf="(selectedOption === 'custom')">
       <input
-        #dateInput matInput
+        matInput
         [matDatepicker]="picker"
         placeholder="Custom Date Time"
-        [(ngModel)]="selectedDate"
-        (dateInput)="onChange(dateInput.value)"
-        (input)="onChange(dateInput.value)"
+        (dateInput)="onDateInput(dateInput.value)"
         autocomplete="off"
+        #dateInput
       >
 
       <mat-error *ngIf="true">Invalid field</mat-error>

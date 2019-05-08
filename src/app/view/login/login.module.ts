@@ -13,7 +13,8 @@ import {SelectInputComponent} from '../select-input/select-input.component';
 import {AppModule} from '../../app.module';
 import {MatSelectModule} from '@angular/material/select';
 import {AppCustomDateTimeComponent} from '../app-custom-date-time/app-custom-date-time.component';
-
+import {CustomDateTimeDirective} from '../../directive/CustomDateTimeDirective';
+import {CustomDateTimeValidator} from '../../validators/CustomDateTimeValidator';
 const routes: Routes = [
   {path: '', component: LoginComponent}
 ];
