@@ -12,10 +12,19 @@
     <mat-form-field class="full-width date_custom_field" *ngIf="(selectedOption === 'custom')">
       <input
         matInput
+        formControlName="dateValue"
+        placeholder="Custom Date Time"
+        (keyup)="onDateInput('input')"
+        autocomplete="off"
+      >
+      <mat-error *ngIf="formGroup.get('dateValue').errors && formGroup.get('dateValue').errors['Invalid']">Invalid field</mat-error>
+      <input
+        matInput
         [matDatepicker]="picker"
         autocomplete="off"
         formControlName="dateChoosen"
         (dateInput)="onDateInput('chooseDate')"
+        style="display: none"
       >
       <mat-datepicker-toggle class="icon_picker" matSuffix [for]="picker">
       </mat-datepicker-toggle>
@@ -32,21 +41,6 @@
 
       <mat-datepicker class="date_picker" #picker ></mat-datepicker>
     </mat-form-field>
-
-    <mat-form-field class="full-width date_custom_field" *ngIf="(selectedOption === 'custom')">
-      <input
-        matInput
-        formControlName="dateValue"
-        placeholder="Custom Date Time"
-        (keyup)="onDateInput('input')"
-        autocomplete="off"
-      >
-      <mat-error *ngIf="formGroup.get('dateValue').errors && formGroup.get('dateValue').errors['Invalid']">Invalid field</mat-error>
-    </mat-form-field>
   </div>
-
-
-
-
 </div>
 
