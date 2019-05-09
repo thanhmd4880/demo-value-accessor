@@ -4,8 +4,9 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, NativeDateAdapter} from '@angular/material';
 import * as moment from 'moment';
 import {Platform} from '@angular/cdk/platform';
+import {formatDate} from '@angular/common';
 
-class MyDateAdapter extends NativeDateAdapter {
+export class MyDateAdapter extends NativeDateAdapter {
   constructor(matDateLocale: string) { super(matDateLocale, new Platform()); }
   format(date: Date, displayFormat: string): string {
     if (displayFormat === 'input') {
@@ -47,8 +48,8 @@ export const MY_FORMATS = {
   selector: 'app-app-custom-date-time',
   providers: [
     SELECT_VALUE_ACCESSOR,
-    // { provide: DateAdapter, useClass: MyDateAdapter, deps: [MAT_DATE_LOCALE] },
-    // { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    { provide: DateAdapter, useClass: MyDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
   templateUrl: './app-custom-date-time.component.html',
   styleUrls: ['./app-custom-date-time.component.css']
@@ -69,7 +70,8 @@ export class AppCustomDateTimeComponent implements OnInit, ControlValueAccessor 
   time = '';
   selectedOption = 'today';
   @ViewChild('dateInput') dateInputRef: ElementRef;
-
+  selectedDate: Date;
+  @ViewChild('dateModel') dateModel: ElementRef;
   private propagateChange = (_: any) => { };
 
   constructor() {
@@ -87,31 +89,62 @@ export class AppCustomDateTimeComponent implements OnInit, ControlValueAccessor 
   }
 
   writeValue( value: any ): void {
-    if (this.dateInputRef)
-      this.dateInputRef.nativeElement.value = value;
+    this.selectedDate = new Date(value);
   }
 
-  onDateInput(value) {
-    this.propagateChange(value);
+  formatDate(date: Date): string {
+
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      return this._to2digit(month) + '/' + this._to2digit(day) + '/' + year + ' ' + this._to2digit(hours) + ':' + this._to2digit(minutes);
+
+  }
+
+  private _to2digit(n: number) {
+    return ('00' + n).slice(-2);
+  }
+
+  onDateInput(event, value) {
+    if (event === 'dateSelect') {
+      if (this.dateInputRef) {
+        this.dateInputRef.nativeElement.value = value;
+        this.propagateChange(new Date(this.dateInputRef.nativeElement.value));
+      }
+    }
+
+    if (event === 'input') {
+      if (this.dateInputRef) {
+        // this.dateInputRef.nativeElement.value = value;
+        // this.propagateChange(new Date(this.dateInputRef.nativeElement.value));
+        const isAccurateDate = moment(value, 'MM/DD/YYYY HH:mm', true).isValid();
+        if (!isAccurateDate) {
+          this.dateModel.control.setValue(null);
+          this.dateInputRef.nativeElement.value = value;
+        }
+      }
+    }
   }
 
   onChangeOption() {
-    // const now = new Date();
-    // switch (this.selectedOption) {
-    //   case 'today': this.selectedDate =  now; break;
-    //   case 'yesterday': this.selectedDate = new Date(new Date().setDate(now.getDate() - 1)); break;
-    //   case 'lastWeek': this.selectedDate = new Date(new Date().setDate(now.getDate() - 7)); break;
-    //   default: this.selectedDate = now; break;
-    // }
-    // this.onChange(this.selectedDate);
+    const now = new Date();
+    switch (this.selectedOption) {
+      case 'today': this.selectedDate =  now; break;
+      case 'yesterday': this.selectedDate = new Date(new Date().setDate(now.getDate() - 1)); break;
+      case 'lastWeek': this.selectedDate = new Date(new Date().setDate(now.getDate() - 7)); break;
+      default: this.selectedDate = now; break;
+    }
+    this.onDateInput('dateSelect', this.selectedDate);
   }
 
   onChangeTime(value: any) {
-    // console.log(value);
-    // const [hour, minute] = this.time.split(':');
-    // this.selectedDate = new Date(new Date(this.selectedDate).setHours(+hour));
-    // this.selectedDate = new Date(new Date(this.selectedDate).setMinutes(+minute));
-    // this.onChange(this.selectedDate);
+    console.log(value);
+    const [hour, minute] = this.time.split(':');
+    this.selectedDate = new Date(new Date(this.selectedDate).setHours(+hour));
+    this.selectedDate = new Date(new Date(this.selectedDate).setMinutes(+minute));
+    this.onDateInput('dateSelect', this.formatDate(this.selectedDate));
   }
 }
 
