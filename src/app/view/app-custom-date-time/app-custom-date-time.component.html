@@ -1,4 +1,4 @@
-<div class="form-control" fxLayout="column" fxLayoutAlign="center center">
+<div class="form-control" fxLayout="column" fxLayoutAlign="center center" [formGroup]="formGroup">
   <mat-form-field class="full-width">
     <mat-label>Start date</mat-label>
     <mat-select [(value)]="selectedOption" (selectionChange)="onChangeOption()">
@@ -13,21 +13,14 @@
       <input
         matInput
         [matDatepicker]="picker"
-        placeholder="Custom Date Time"
-        (dateInput)="onDateInput('dateSelect', dateInput.value)"
-        (keyup)="onDateInput('input', dateInput.value)"
         autocomplete="off"
-        #dateInput
-        #dateModel="ngModel"
-        [(ngModel)]="selectedDate"
+        formControlName="dateChoosen"
+        (dateInput)="onDateInput('chooseDate')"
       >
-
-      <mat-error *ngIf="dateModel.invalid">Invalid field</mat-error>
-
       <mat-datepicker-toggle class="icon_picker" matSuffix [for]="picker">
       </mat-datepicker-toggle>
 
-      <mat-select matSuffix #select class="no-padding" [(ngModel)]="time" (selectionChange)="onChangeTime(select.value)">
+      <mat-select matSuffix class="no-padding" formControlName="time" (selectionChange)="onChangeTime()">
         <mat-option value="7:00">7:00</mat-option>
         <mat-option value="7:30">7:30</mat-option>
         <mat-option value="8:00">8:00</mat-option>
@@ -38,6 +31,17 @@
       </mat-select>
 
       <mat-datepicker class="date_picker" #picker ></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="full-width date_custom_field" *ngIf="(selectedOption === 'custom')">
+      <input
+        matInput
+        formControlName="dateValue"
+        placeholder="Custom Date Time"
+        (keyup)="onDateInput('input')"
+        autocomplete="off"
+      >
+      <mat-error *ngIf="formGroup.get('dateValue').errors && formGroup.get('dateValue').errors['Invalid']">Invalid field</mat-error>
     </mat-form-field>
   </div>
 
