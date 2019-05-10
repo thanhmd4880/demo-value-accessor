@@ -34,3 +34,6 @@
 .no-padding {
   width: 0;
 }
+.cdk-overlay-pane {
+  margin-left: 15px;
+}

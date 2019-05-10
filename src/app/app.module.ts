@@ -16,6 +16,7 @@ import {AuthGuardService} from './auth/auth-guard.service';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 
+
 const appRoutes: Routes = [
   { path: 'login', loadChildren: './view/login/login.module#LoginModule'},
   { path: 'info2', loadChildren: './view/info2/info2.module#InfoModule2', canActivate: [AuthGuardService], canLoad: [AuthGuardService]},
@@ -27,7 +28,7 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

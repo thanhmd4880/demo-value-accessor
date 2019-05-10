@@ -15,6 +15,12 @@ import {MatSelectModule} from '@angular/material/select';
 import {AppCustomDateTimeComponent} from '../app-custom-date-time/app-custom-date-time.component';
 import {CustomDateTimeDirective} from '../../directive/CustomDateTimeDirective';
 import {CustomDateTimeValidator} from '../../validators/CustomDateTimeValidator';
+import {DateTimeRangeComponent} from '../date-time-range/date-time-range.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+
 const routes: Routes = [
   {path: '', component: LoginComponent}
 ];
@@ -25,6 +31,7 @@ const routes: Routes = [
     InpurRowComponent,
     SelectInputComponent,
     AppCustomDateTimeComponent,
+    DateTimeRangeComponent
   ],
   imports: [
     CommonModule,
@@ -49,6 +56,10 @@ const routes: Routes = [
     MatNativeDateModule,
     FormsModule,
     MatAutocompleteModule,
+    MatCardModule,
+    MatDividerModule,
+    MatCheckboxModule,
+    MatRadioModule
   ],
   providers: [],
   exports: []

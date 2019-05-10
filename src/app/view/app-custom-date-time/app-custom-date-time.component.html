@@ -14,7 +14,7 @@
         matInput
         formControlName="dateValue"
         placeholder="Custom Date Time"
-        (keyup)="onDateInput('input')"
+        (input)="onDateInput('input')"
         autocomplete="off"
       >
       <mat-error *ngIf="formGroup.get('dateValue').errors && formGroup.get('dateValue').errors['Invalid']">Invalid field</mat-error>

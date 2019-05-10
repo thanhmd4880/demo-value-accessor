@@ -24,7 +24,8 @@ export class LoginComponent implements OnInit {
       username: new FormControl('dmthanh', [Validators.maxLength(20)]),
       password: new FormControl('123'),
       select: new FormControl(2, [Validators.required]),
-      dateValue: new FormControl(new Date(), [Validators.required ])
+      dateValue: new FormControl(new Date(), [Validators.required ]),
+      dateTimeRange: new FormControl('')
     });
 
     this.formGroup.valueChanges.subscribe((changes) => {

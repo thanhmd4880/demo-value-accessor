@@ -1,0 +1,105 @@
+<div class="container" [formGroup]="formGroup">
+  <mat-form-field class="form-field full-width">
+    <mat-select formControlName="dateTimeType" (click)="toogleModel($event)">
+    </mat-select>
+  </mat-form-field>
+  <div class="model" [ngClass]="{'close': !modelOpen }" fxLayout="column" fxLayoutAlign="center start">
+
+    <div class="row" fxLayout="column" fxLayoutAlign="center start" style="width: 60%">
+      <div class="heading">
+        <p>Select Date and Time Range</p>
+      </div>
+      <div class="dateTimeRange">
+        <mat-form-field class="form-field full-width">
+          <!--    <mat-label>Select Date Range</mat-label>-->
+          <mat-select formControlName="dateTimeType">
+            <mat-option *ngFor="let dateType of dateTypeOptions" [value]="dateType.value">
+              {{dateType.displayName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row" fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="5px">
+      <div class="date-input" fxLayout="column" fxLayoutAlign="center center">
+        <div class="title"><span class="title-text">Start Date</span></div>
+        <p class="time-heading">May 10th, 2019</p>
+        <div class="calendar-option">
+          <mat-form-field>
+            <mat-select value="fixed">
+              <mat-option value="fixed">Fixed</mat-option>
+              <mat-option>Today</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="calendar">
+<!--          <mat-calendar [selected]="selectedDate" (selectedChange)="onSelect($event)"></mat-calendar>-->
+          <mat-calendar></mat-calendar>
+        </div>
+      </div>
+      <div class="date-input" fxLayout="column" fxLayoutAlign="center center">
+        <div class="title"><span class="title-text">Start Date</span></div>
+        <p class="time-heading">May 10th, 2019</p>
+        <div class="calendar-option">
+          <mat-form-field>
+            <mat-select value="fixed">
+              <mat-option value="fixed">Fixed</mat-option>
+              <mat-option>Today</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="calendar">
+          <!--          <mat-calendar [selected]="selectedDate" (selectedChange)="onSelect($event)"></mat-calendar>-->
+          <mat-calendar></mat-calendar>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="row" fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="5px">
+      <mat-divider></mat-divider>
+        <mat-checkbox>All day</mat-checkbox>
+        <mat-radio-group class="radio-group" fxLayout="column" fxLayoutAlign="start" fxLayoutGap="5px">
+          <mat-radio-button value="1">Individual Time Blocks</mat-radio-button>
+          <mat-radio-button value="2">Continuous Time Blocks</mat-radio-button>
+        </mat-radio-group>
+    </div>
+    <div class="row" fxLayout="row" fxLayoutAlign="start" fxLayoutGap="15px">
+      <div class="time-picker from-time">
+        <mat-form-field>
+          <mat-select value="00:00 am" class="time-select">
+            <mat-option value="00:00 am"><span class="text-bold">From: </span>00:00 am</mat-option>
+            <mat-option value="00:15 am"><span class="text-bold">From: </span>00:15 am</mat-option>
+            <mat-option value="00:30 am"><span class="text-bold">From: </span>00:30 am</mat-option>
+            <mat-option value="00:45 am"><span class="text-bold">From: </span>00:45 am</mat-option>
+            <mat-option value="01:00 am"><span class="text-bold">From: </span>01:00 am</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="time-picker to-time">
+        <mat-form-field>
+          <mat-select value="00:00 am" class="time-select">
+            <mat-option value="00:00 am"><span class="text-bold">From: </span>00:00 am</mat-option>
+            <mat-option value="00:15 am"><span class="text-bold">From: </span>00:15 am</mat-option>
+            <mat-option value="00:30 am"><span class="text-bold">From: </span>00:30 am</mat-option>
+            <mat-option value="00:45 am"><span class="text-bold">From: </span>00:45 am</mat-option>
+            <mat-option value="01:00 am"><span class="text-bold">From: </span>01:00 am</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row time-info" fxFlex="row" fxFlexAlign="start center">
+      <mat-icon class="calendar-icon">calendar_today</mat-icon>
+      <span class="time-info">May 10th, 2019 - May 10th, 2019 (09:45 am - 11:45 pm each day)</span>
+    </div>
+
+    <div class="row" fxFlex="row" fxFlexAlign="end center" style="display: flex; justify-content: flex-end">
+      <button (click)="toogleModel($event)" mat-flat-button>CANCEL</button>
+      <button class="primary-color" (click)="toogleModel($event)" mat-flat-button>APPLY</button>
+    </div>
+  </div>
+
+</div>

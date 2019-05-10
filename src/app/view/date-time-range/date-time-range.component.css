@@ -1,0 +1,121 @@
+:host {
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-field {
+  /*font: 400 14px/1.125 Roboto,"Helvetica Neue",sans-serif;*/
+}
+.container {
+  position: relative;
+}
+
+.row {
+  /*background: #777777;*/
+  /*border: 1px solid red;*/
+  /*height: 20px;*/
+  width: 100%
+}
+
+.model {
+  position: absolute;
+  width: 500px;
+  /*height: 500px;*/
+  background: #FFF;
+  top: 0;
+  left: 0;
+  border: 1px solid #777;
+  z-index: 999;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  padding: 15px;
+}
+
+.close {
+  display: none !important;
+}
+
+.heading {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+.time-heading {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: auto;
+  -moz-osx-font-smoothing: auto;
+  padding: 5px;
+}
+.dateTimeRange, .date-input {
+  width: 100%;
+}
+
+.title {
+  width: 100%;
+  height: 40px;
+  background: #D6D6D6;
+  text-align: center;
+  /*line-height: 40px;*/
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title-text {
+  display: inline-block;
+  font-weight: 300;
+}
+
+.text-bold {
+  font-weight: 700;
+}
+
+.time-select {
+  padding: 5px;
+}
+
+.calendar-icon {
+  font-size: 16px;
+
+}
+
+::ng-deep.mat-calendar-header {
+  padding-top: 0!important;
+}
+::ng-deep.mat-calendar-controls {
+  margin-top: 0;
+}
+
+.mat-select-value span::before {
+  content: 'From';
+  font-weight: bold;
+}
+
+.time-info {
+  display: flex;
+  align-items: center;
+}
+
+.calendar-icon{
+  font-size: 24px;
+  margin-right: 8px;
+}
+
+.primary-color {
+  color: #ffd740;
+}
+
+::ng-deep.mat-calendar-body-today:not(.mat-calendar-body-selected) {
+  background: #ffd740;
+  color: #fff;
+}
