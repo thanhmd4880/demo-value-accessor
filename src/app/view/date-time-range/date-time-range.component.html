@@ -4,12 +4,14 @@
     </mat-select>
   </mat-form-field>
   <div class="model" [ngClass]="{'close': !modelOpen }" fxLayout="column" fxLayoutAlign="center start">
-
+    <div class="row error-panel" fxLayout="column" fxLayoutAlign="center center" *ngIf="formGroup.get('_selectedDate1').value>formGroup.get('_selectedDate2').value">
+      End date is earlier then start date
+    </div>
     <div class="row" fxLayout="column" fxLayoutAlign="center start" style="width: 60%">
       <div class="heading">
         <p>Select Date and Time Range</p>
       </div>
-      <div class="dateTimeRange">
+      <div class="dateTimeRange" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
         <mat-form-field class="form-field full-width">
           <!--    <mat-label>Select Date Range</mat-label>-->
           <mat-select formControlName="dateTimeType">
@@ -18,85 +20,164 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <mat-checkbox>Include Today</mat-checkbox>
       </div>
     </div>
 
-    <div class="row" fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="5px">
+    <div class="row box-border" fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="5px">
       <div class="date-input" fxLayout="column" fxLayoutAlign="center center">
         <div class="title"><span class="title-text">Start Date</span></div>
-        <p class="time-heading">May 10th, 2019</p>
+        <p class="time-heading">{{ selectedDate1 }}</p>
         <div class="calendar-option">
           <mat-form-field>
-            <mat-select value="fixed">
+            <mat-select formControlName="dateInputType1" #select>
               <mat-option value="fixed">Fixed</mat-option>
-              <mat-option>Today</mat-option>
+              <mat-option value="today">Today</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="calendar">
-<!--          <mat-calendar [selected]="selectedDate" (selectedChange)="onSelect($event)"></mat-calendar>-->
-          <mat-calendar></mat-calendar>
+        <div class="today" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px" *ngIf="formGroup.get('dateInputType1').value==='today'">
+          <mat-form-field>
+            <mat-select formControlName="dateOp1" (selectionChange)="onDateChange1('op')">
+              <mat-option value="minus">Minus</mat-option>
+              <mat-option value="plus">Plus</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Duration</mat-label>
+            <input formControlName="duration1" type="text" matInput value="0" min="0" (input)="onDateChange1('duration')">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select formControlName="period1" (selectionChange)="onDateChange1('period')">
+              <mat-option value="days">Days</mat-option>
+              <mat-option value="weeks">Weeks</mat-option>
+              <mat-option value="months">Months</mat-option>
+              <mat-option value="years">Years</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="fixed calendar" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px" *ngIf="formGroup.get('dateInputType1').value==='fixed'">
+          <mat-calendar [selected]="formGroup.get('_selectedDate1').value" (selectedChange)="onSelectDate1($event)"></mat-calendar>
         </div>
       </div>
       <div class="date-input" fxLayout="column" fxLayoutAlign="center center">
-        <div class="title"><span class="title-text">Start Date</span></div>
-        <p class="time-heading">May 10th, 2019</p>
+        <div class="title"><span class="title-text">End Date</span></div>
+        <p class="time-heading">{{ selectedDate2 }}</p>
         <div class="calendar-option">
           <mat-form-field>
-            <mat-select value="fixed">
+            <mat-select formControlName="dateInputType2" #select>
               <mat-option value="fixed">Fixed</mat-option>
-              <mat-option>Today</mat-option>
+              <mat-option value="today">Today</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="calendar">
-          <!--          <mat-calendar [selected]="selectedDate" (selectedChange)="onSelect($event)"></mat-calendar>-->
-          <mat-calendar></mat-calendar>
+        <div class="today" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px" *ngIf="formGroup.get('dateInputType2').value==='today'">
+          <mat-form-field>
+            <mat-select formControlName="dateOp2">
+              <mat-option value="minus">Minus</mat-option>
+              <mat-option value="plus">Plus</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Duration</mat-label>
+            <input formControlName="duration2" type="text" matInput value="0">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select formControlName="period2">
+              <mat-option value="days">Days</mat-option>
+              <mat-option value="weeks">Weeks</mat-option>
+              <mat-option value="months">Months</mat-option>
+              <mat-option value="years">Years</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="fixed calendar" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px" *ngIf="formGroup.get('dateInputType2').value==='fixed'">
+          <mat-calendar [selected]="formGroup.get('_selectedDate2').value" (selectedChange)="onSelectDate2($event)"></mat-calendar>
         </div>
       </div>
     </div>
 
-
-
-    <div class="row" fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="5px">
-      <mat-divider></mat-divider>
-        <mat-checkbox>All day</mat-checkbox>
-        <mat-radio-group class="radio-group" fxLayout="column" fxLayoutAlign="start" fxLayoutGap="5px">
-          <mat-radio-button value="1">Individual Time Blocks</mat-radio-button>
-          <mat-radio-button value="2">Continuous Time Blocks</mat-radio-button>
+    <div class="row" fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="10px" class="m-t-10">
+        <mat-checkbox [checked]="true" #chkAllDay class="check_btn">All day</mat-checkbox>
+        <mat-radio-group formControlName="radioTime" #radio_group class="radio-group" fxLayout="column" fxLayoutAlign="start" fxLayoutGap="10px" [disabled]="chkAllDay.checked===true" >
+          <mat-radio-button class="radio_btn" value="1">Individual Time Blocks</mat-radio-button>
+          <mat-radio-button class="radio_btn" value="2">Continuous Time Blocks</mat-radio-button>
         </mat-radio-group>
     </div>
-    <div class="row" fxLayout="row" fxLayoutAlign="start" fxLayoutGap="15px">
+    <div class="row" fxLayout="row" fxLayoutAlign="start" fxLayoutGap="15px" >
       <div class="time-picker from-time">
-        <mat-form-field>
-          <mat-select value="00:00 am" class="time-select">
-            <mat-option value="00:00 am"><span class="text-bold">From: </span>00:00 am</mat-option>
-            <mat-option value="00:15 am"><span class="text-bold">From: </span>00:15 am</mat-option>
-            <mat-option value="00:30 am"><span class="text-bold">From: </span>00:30 am</mat-option>
-            <mat-option value="00:45 am"><span class="text-bold">From: </span>00:45 am</mat-option>
-            <mat-option value="01:00 am"><span class="text-bold">From: </span>01:00 am</mat-option>
+        <mat-form-field class="time-form-field">
+          <span matPrefix class="text-bold">From: </span>
+          <mat-select formControlName="fromTime" value="00:00 am" class="time-select" [disabled]="chkAllDay.checked">
+            <mat-option value="00:00 am">00:00 am</mat-option>
+            <mat-option value="00:15 am">00:15 am</mat-option>
+            <mat-option value="00:30 am">00:30 am</mat-option>
+            <mat-option value="00:45 am">00:45 am</mat-option>
+            <mat-option value="01:00 am">01:00 am</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
       <div class="time-picker to-time">
-        <mat-form-field>
-          <mat-select value="00:00 am" class="time-select">
-            <mat-option value="00:00 am"><span class="text-bold">From: </span>00:00 am</mat-option>
-            <mat-option value="00:15 am"><span class="text-bold">From: </span>00:15 am</mat-option>
-            <mat-option value="00:30 am"><span class="text-bold">From: </span>00:30 am</mat-option>
-            <mat-option value="00:45 am"><span class="text-bold">From: </span>00:45 am</mat-option>
-            <mat-option value="01:00 am"><span class="text-bold">From: </span>01:00 am</mat-option>
+        <mat-form-field class="time-form-field">
+          <span matPrefix class="text-bold">To: </span>
+          <mat-select formControlName="toTime" value="00:00 am" class="time-select" [disabled]="chkAllDay.checked">
+            <mat-option value="00:00 am">00:00 am</mat-option>
+            <mat-option value="00:15 am">00:15 am</mat-option>
+            <mat-option value="00:30 am">00:30 am</mat-option>
+            <mat-option value="00:45 am">00:45 am</mat-option>
+            <mat-option value="01:00 am">01:00 am</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
     </div>
 
     <div class="row time-info" fxFlex="row" fxFlexAlign="start center">
-      <mat-icon class="calendar-icon">calendar_today</mat-icon>
-      <span class="time-info">May 10th, 2019 - May 10th, 2019 (09:45 am - 11:45 pm each day)</span>
+      <mat-icon class="calendar-icon">date_range</mat-icon>
+
+      <ng-container *ngIf="formGroup.get('dateInputType1').value==='fixed' && formGroup.get('dateInputType2').value==='fixed'">
+         <span *ngIf="formGroup.get('radioTime').value==1" class="time-info">{{selectedDate1}} - {{selectedDate2}}
+           <ng-container *ngIf="!chkAllDay.checked"> ({{fromTime}} - {{toTime}} each day)</ng-container>
+        </span>
+        <span *ngIf="formGroup.get('radioTime').value==2" class="time-info">
+          <ng-container *ngIf="chkAllDay.checked">{{selectedDate1}} - {{selectedDate2}}</ng-container>
+          <ng-container *ngIf="!chkAllDay.checked">{{selectedDate1}} ({{fromTime}}) - {{selectedDate2}} ({{toTime}})</ng-container>
+        </span>
+      </ng-container>
+
+      <ng-container *ngIf="formGroup.get('dateInputType1').value==='today' && formGroup.get('dateInputType2').value==='fixed'">
+         <span *ngIf="formGroup.get('radioTime').value==1" class="time-info">Today {{formGroup.get('dateOp1').value}} {{formGroup.get('duration1').value}} {{formGroup.get('period1').value}} - {{selectedDate2}}
+           <ng-container *ngIf="!chkAllDay.checked">({{fromTime}} - {{toTime}} each day)</ng-container>
+        </span>
+        <span *ngIf="formGroup.get('radioTime').value==2" class="time-info">
+          <ng-container *ngIf="chkAllDay.checked">Today {{formGroup.get('dateOp1').value}} {{formGroup.get('duration1').value}} {{formGroup.get('period1').value}} - {{selectedDate2}}</ng-container>
+          <ng-container *ngIf="!chkAllDay.checked">Today {{formGroup.get('dateOp1').value}} {{formGroup.get('duration1').value}} {{formGroup.get('period1').value}} ({{fromTime}}) - {{selectedDate2}} ({{toTime}})</ng-container>
+        </span>
+      </ng-container>
+
+      <ng-container *ngIf="formGroup.get('dateInputType1').value==='fixed' && formGroup.get('dateInputType2').value==='today'">
+         <span *ngIf="formGroup.get('radioTime').value==1" class="time-info">{{selectedDate1}} - Today {{formGroup.get('dateOp2').value}} {{formGroup.get('duration2').value}} {{formGroup.get('period2').value}}
+           <ng-container *ngIf="!chkAllDay.checked"> ({{fromTime}} - {{toTime}} each day)</ng-container>
+        </span>
+        <span *ngIf="formGroup.get('radioTime').value==2" class="time-info">
+          <ng-container *ngIf="chkAllDay.checked">{{selectedDate1}} - Today {{formGroup.get('dateOp2').value}} {{formGroup.get('duration2').value}} {{formGroup.get('period2').value}}</ng-container>
+          <ng-container *ngIf="!chkAllDay.checked">{{selectedDate1}} ({{fromTime}}) - Today {{formGroup.get('dateOp2').value}} {{formGroup.get('duration2').value}} {{formGroup.get('period2').value}} ({{toTime}})</ng-container>
+        </span>
+      </ng-container>
+
+      <ng-container *ngIf="formGroup.get('dateInputType1').value==='today' && formGroup.get('dateInputType2').value==='today'">
+         <span *ngIf="formGroup.get('radioTime').value==1" class="time-info">Today {{formGroup.get('dateOp1').value}} {{formGroup.get('duration1').value}} {{formGroup.get('period1').value}} - Today {{formGroup.get('dateOp2').value}} {{formGroup.get('duration2').value}} {{formGroup.get('period2').value}}
+           <ng-container *ngIf="!chkAllDay.checked"> ({{fromTime}} - {{toTime}} each day)</ng-container>
+        </span>
+        <span *ngIf="formGroup.get('radioTime').value==2" class="time-info">
+          <ng-container *ngIf="chkAllDay.checked">Today {{formGroup.get('dateOp1').value}} {{formGroup.get('duration1').value}} {{formGroup.get('period1').value}} - Today {{formGroup.get('dateOp2').value}} {{formGroup.get('duration2').value}} {{formGroup.get('period2').value}}</ng-container>
+          <ng-container *ngIf="!chkAllDay.checked">Today {{formGroup.get('dateOp1').value}} {{formGroup.get('duration1').value}} {{formGroup.get('period1').value}} ({{fromTime}}) - Today {{formGroup.get('dateOp2').value}} {{formGroup.get('duration2').value}} {{formGroup.get('period2').value}} ({{toTime}})</ng-container>
+        </span>
+      </ng-container>
+
+
     </div>
 
-    <div class="row" fxFlex="row" fxFlexAlign="end center" style="display: flex; justify-content: flex-end">
+    <div class="row" fxFlex="row" fxFlexAlign="end center" style="display: flex; justify-content: flex-end; margin-top: 10px">
       <button (click)="toogleModel($event)" mat-flat-button>CANCEL</button>
       <button class="primary-color" (click)="toogleModel($event)" mat-flat-button>APPLY</button>
     </div>

@@ -43,7 +43,8 @@ const appRoutes: Routes = [
     MatButtonModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatInputModule
   ],
   providers: [],
   exports: [

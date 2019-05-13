@@ -20,7 +20,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
-
+import {MatListModule} from '@angular/material/list';
 const routes: Routes = [
   {path: '', component: LoginComponent}
 ];
@@ -51,15 +51,14 @@ const routes: Routes = [
     MatIconModule,
     FlexLayoutModule,
     MatButtonModule,
-    MatSelectModule,
-    MatDatepickerModule,
     MatNativeDateModule,
     FormsModule,
     MatAutocompleteModule,
     MatCardModule,
     MatDividerModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
+    MatListModule,
   ],
   providers: [],
   exports: []

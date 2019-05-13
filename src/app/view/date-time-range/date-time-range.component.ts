@@ -1,6 +1,6 @@
 import {Component, forwardRef, OnInit} from '@angular/core';
-import {ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR} from '@angular/forms';
-
+import {ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
+import * as moment from 'moment';
 export const SELECT_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => DateTimeRangeComponent),
@@ -28,16 +28,44 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
     {displayName: 'Last week (starts Monday)', value: 'lastweek_monday'},
     {displayName: 'This year to date', value: 'thisyear_todate'},
     {displayName: 'Last year', value: 'lastyear'},
-    {displayName: 'Advanced', value: 'lastweek_monday'},
-  ]
+    {displayName: 'Advanced', value: 'advanced'},
+  ];
   modelOpen = false;
+
+  get selectedDate1() {
+    return moment(this.formGroup.get('_selectedDate1').value).format('MMM Do, YYYY');
+  }
+
+  get selectedDate2() {
+    return moment(this.formGroup.get('_selectedDate2').value).format('MMM Do, YYYY');
+  }
+  get fromTime() {
+    return this.formGroup.get('fromTime').value;
+  }
+  get toTime() {
+    return this.formGroup.get('toTime').value;
+  }
 
   private propagateChange = (_: any) => { };
 
   ngOnInit() {
     this.formGroup = new FormGroup({
-      dateTimeType: new FormControl(''),
+      dateTimeType: new FormControl('advanced'),
+      dateInputType1: new FormControl('fixed'),
+      dateOp1: new FormControl('minus'),
+      duration1: new FormControl(0, [Validators.min(0)]),
+      period1: new FormControl('days'),
+      dateInputType2: new FormControl('fixed'),
+      dateOp2: new FormControl('minus'),
+      duration2: new FormControl(0, [Validators.min(0)]),
+      period2: new FormControl('days'),
+      _selectedDate1: new FormControl(new Date()),
+      _selectedDate2: new FormControl(new Date()),
+      radioTime: new FormControl('1'),
+      fromTime: new FormControl('00:00 am'),
+      toTime: new FormControl('00:00 am')
     });
+
   }
 
   registerOnChange(fn: any): void {
@@ -54,6 +82,30 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
   toogleModel(event) {
     event.preventDefault();
     this.modelOpen = !this.modelOpen;
-    console.log('go here')
+  }
+
+  onSelectDate1(event: any) {
+    this.formGroup.get('_selectedDate1').setValue(event);
+  }
+  onSelectDate2(event: any) {
+    this.formGroup.get('_selectedDate2').setValue(event);
+  }
+
+  onDateChange1(event: string) {
+    let dateValue = moment(new Date());
+    const dateOp = this.formGroup.get('dateOp1').value;
+    const duration =  this.formGroup.get('duration1').value || 0;
+    const period = this.formGroup.get('period1').value;
+
+
+    if (dateOp === 'plus') {
+      dateValue = moment(dateValue).add(duration, period);
+    } else if (dateOp === 'minus') {
+      dateValue = moment(dateValue).subtract(duration, period);
+    }
+
+    this.formGroup.get('_selectedDate1').setValue(dateValue.toDate());
+
+
   }
 }
