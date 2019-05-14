@@ -21,6 +21,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatListModule} from '@angular/material/list';
+import {TodatehtmlPipe} from '../../todatehtml.pipe';
 const routes: Routes = [
   {path: '', component: LoginComponent}
 ];
@@ -31,6 +32,7 @@ const routes: Routes = [
     InpurRowComponent,
     SelectInputComponent,
     AppCustomDateTimeComponent,
+    TodatehtmlPipe,
     DateTimeRangeComponent
   ],
   imports: [

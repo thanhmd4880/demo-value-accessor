@@ -97,7 +97,7 @@
 }
 
 .primary-color {
-  color: #ffd740;
+  color: #0574D0;
 }
 
 ::ng-deep.cdk-overlay-pane {
@@ -122,7 +122,7 @@
 .time-picker mat-form-field {
   width: 180px;
 }
-.time-picker mat-select.mat-select-disabled {
+.time-picker input[disabled] {
   cursor: not-allowed;
   color: rgba(0,0,0,.38);
 }

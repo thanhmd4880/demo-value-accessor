@@ -1,4 +1,4 @@
-import {Component, forwardRef, OnInit} from '@angular/core';
+import {AfterViewInit, Component, forwardRef, OnInit, ViewChild} from '@angular/core';
 import {ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
 import * as moment from 'moment';
 export const SELECT_VALUE_ACCESSOR: any = {
@@ -15,7 +15,11 @@ export const SELECT_VALUE_ACCESSOR: any = {
   templateUrl: './date-time-range.component.html',
   styleUrls: ['./date-time-range.component.css']
 })
-export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
+export class DateTimeRangeComponent implements OnInit, ControlValueAccessor, AfterViewInit {
+  VIEWS: any = {
+    INCLUDETODAYVIEW: 'toDateView',
+    INCLUDECALENDARVIEW: 'calendarDateView'
+  };
   constructor() { }
   formGroup: FormGroup;
   dateTypeOptions = [
@@ -31,7 +35,20 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
     {displayName: 'Advanced', value: 'advanced'},
   ];
   modelOpen = false;
+  formatView = [
+    {value: 'fixed', toDateView: false, calendarDateView: true, lastDateType: false, radioGroupTimeView: true},
+    {value: 'last7days', toDateView: true, calendarDateView: false, lastDateType: true, radioGroupTimeView: true},
+    {value: 'last14days', toDateView: true, calendarDateView: false, lastDateType: true, radioGroupTimeView: true},
+    {value: 'today', toDateView: false, calendarDateView: false, lastDateType: true, radioGroupTimeView: false},
+    {value: 'yesterday', toDateView: false, calendarDateView: false, lastDateType: true, radioGroupTimeView: false},
+    {value: 'thisweek_todate_sunday', toDateView: true, calendarDateView: false, lastDateType: true, radioGroupTimeView: true},
+    {value: 'lastweek_monday', toDateView: false, calendarDateView: false, lastDateType: true, radioGroupTimeView: true},
+    {value: 'thisyear_todate', toDateView: true, calendarDateView: false, lastDateType: true, radioGroupTimeView: true},
+    {value: 'lastyear', toDateView: false, calendarDateView: false, lastDateType: true, radioGroupTimeView: true},
+    {value: 'advanced', toDateView: false, calendarDateView: true, lastDateType: false, radioGroupTimeView: true},
+  ];
 
+  @ViewChild('dateInfo') dateInfo;
   get selectedDate1() {
     return moment(this.formGroup.get('_selectedDate1').value).format('MMM Do, YYYY');
   }
@@ -46,10 +63,36 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
     return this.formGroup.get('toTime').value;
   }
 
+  get dateTypeDisplayName() {
+    return this.dateTypeOptions.find(option => option.value === this.formGroup.get('dateTimeType').value)['displayName'];
+  }
+
+  get isNotIncludeDetailDate() {
+    return this.formatView.find(fv => fv.value === this.formGroup.get('dateTimeType').value)['lastDateType'];
+  }
+
+  get isIncludeTodayCheckedView() {
+    return this.formatView.find(fv => fv.value === this.formGroup.get('dateTimeType').value)['toDateView'];
+  }
+
+  get isIncludeCalendarView() {
+    return this.formatView.find(fv => fv.value === this.formGroup.get('dateTimeType').value)['calendarDateView'];
+  }
+
+  get isIncludeTodayChecked() {
+    return this.formGroup.get('includeToday').value;
+  }
+
+  get isIncludeRadioTimeGroupView() {
+    return this.formatView.find(fv => fv.value === this.formGroup.get('dateTimeType').value)['radioGroupTimeView'];
+  }
+
+
   private propagateChange = (_: any) => { };
 
   ngOnInit() {
     this.formGroup = new FormGroup({
+      dateRange: new FormControl(''),
       dateTimeType: new FormControl('advanced'),
       dateInputType1: new FormControl('fixed'),
       dateOp1: new FormControl('minus'),
@@ -59,13 +102,30 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
       dateOp2: new FormControl('minus'),
       duration2: new FormControl(0, [Validators.min(0)]),
       period2: new FormControl('days'),
-      _selectedDate1: new FormControl(new Date()),
-      _selectedDate2: new FormControl(new Date()),
+      _selectedDate1: new FormControl(new Date(`${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`)),
+      _selectedDate2: new FormControl(new Date(`${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`)),
+      allDay: new FormControl(true),
       radioTime: new FormControl('1'),
-      fromTime: new FormControl('00:00 am'),
-      toTime: new FormControl('00:00 am')
+      fromTime: new FormControl( '00:00 am'),
+      toTime: new FormControl('00:00 am'),
+      includeToday: new FormControl(false)
     });
 
+    this.formGroup.get('radioTime').disable({onlySelf: true});
+    this.formGroup.get('fromTime').disable({onlySelf: true});
+    this.formGroup.get('toTime').disable({onlySelf: true});
+
+    // this.formGroup.get('includeToday').disable({onlySelf: true});
+    // this.formGroup.get('_selectedDate1').valueChanges.subscribe((val) => {
+    //   this.formGroup.get('dateRange').setValue(this.dateInfo.nativeElement.innerText);
+    // })
+    // this.formGroup.get('_selectedDate2').valueChanges.subscribe((val) => {
+    //   this.formGroup.get('dateRange').setValue(this.dateInfo.nativeElement.innerText);
+    // })
+  }
+
+  ngAfterViewInit() {
+    // this.formGroup.get('dateRange').setValue(this.dateInfo.nativeElement.innerText);
   }
 
   registerOnChange(fn: any): void {
@@ -82,6 +142,7 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
   toogleModel(event) {
     event.preventDefault();
     this.modelOpen = !this.modelOpen;
+    // set the
   }
 
   onSelectDate1(event: any) {
@@ -92,11 +153,13 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
   }
 
   onDateChange1(event: string) {
-    let dateValue = moment(new Date());
+    // tslint:disable-next-line:max-line-length
+    this.formGroup.get('_selectedDate1').setValue(new Date(`${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`));
+    let dateValue = moment(this.formGroup.get('_selectedDate1').value);
     const dateOp = this.formGroup.get('dateOp1').value;
-    const duration =  this.formGroup.get('duration1').value || 0;
+    // tslint:disable-next-line:max-line-length
+    const duration = Number.isNaN(parseInt(this.formGroup.get('duration1').value, 10)) ? 0 : parseInt(this.formGroup.get('duration1').value, 10);
     const period = this.formGroup.get('period1').value;
-
 
     if (dateOp === 'plus') {
       dateValue = moment(dateValue).add(duration, period);
@@ -104,8 +167,59 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
       dateValue = moment(dateValue).subtract(duration, period);
     }
 
+    if (period === 'months') {
+      dateValue = dateValue.date(1);
+    } else if (period === 'years') {
+      dateValue = dateValue.date(1).month(0);
+    }
+
     this.formGroup.get('_selectedDate1').setValue(dateValue.toDate());
+  }
 
+  // enableView(value, view) {
+  //   return this.formatView.find((fView) => fView.value === value)[view];
+  // }
 
+  get dateTimeType() {
+    return this.formGroup.get('dateTimeType').value;
+  }
+
+  get allDayChecked() {
+    return this.formGroup.get('allDay').value;
+  }
+
+  onCheckAllDay() {
+    const checked = this.formGroup.get('allDay').value;
+    if (checked) {
+      this.formGroup.get('fromTime').disable({onlySelf: true});
+      this.formGroup.get('toTime').disable({onlySelf: true});
+      this.formGroup.get('radioTime').disable({onlySelf: true});
+    } else {
+      this.formGroup.get('fromTime').enable({onlySelf: true});
+      this.formGroup.get('toTime').enable({onlySelf: true});
+      this.formGroup.get('radioTime').enable({onlySelf: true});
+    }
+  }
+
+  handleChangeTime(type, event) {
+    if(type === 'fromTime') {
+      this.formGroup.get('fromTime').setValue(event.value);
+    } else if (type === 'toTime') {
+      this.formGroup.get('toTime').setValue(event.value);
+    }
+  }
+
+  getHourMinuteOptionData(): string[] {
+    const data: string[] = [];
+    let date = moment().hour(0).minute(0);
+    let d = date.format('h:mm a');
+    do {
+      data.push(d);
+      date = date.add(15, 'minutes');
+      d = date.format('h:mm a');
+    }
+    while (d !== '12:00 am');
+
+    return data;
   }
 }
