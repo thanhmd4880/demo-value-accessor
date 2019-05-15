@@ -92,7 +92,7 @@ export class TodatehtmlPipe implements PipeTransform {
           returnStr +=  ` (${this.fromTime} - ${this.toTime})`;
         }
       }
-      if (!formGroupValue.allDay && this.isIncludeRadioTimeGroupView) {
+      if (!formGroupValue.allDay && !this.isIncludeRadioTimeGroupView) {
         returnStr += ` (${this.fromTime} - ${this.toTime})`;
       }
     }
