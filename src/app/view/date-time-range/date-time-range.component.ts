@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, forwardRef, OnInit, ViewChild} from '@angular/core';
 import {ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
 import * as moment from 'moment';
+import { SlideInOutAnimation } from '../../animation/slide-in-out';
 export const SELECT_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => DateTimeRangeComponent),
@@ -13,9 +14,10 @@ export const SELECT_VALUE_ACCESSOR: any = {
     SELECT_VALUE_ACCESSOR,
   ],
   templateUrl: './date-time-range.component.html',
-  styleUrls: ['./date-time-range.component.css']
+  styleUrls: ['./date-time-range.component.css'],
+  animations: [SlideInOutAnimation]
 })
-export class DateTimeRangeComponent implements OnInit, ControlValueAccessor, AfterViewInit {
+export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
   VIEWS: any = {
     INCLUDETODAYVIEW: 'toDateView',
     INCLUDECALENDARVIEW: 'calendarDateView'
@@ -48,7 +50,11 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor, Aft
     {value: 'advanced', toDateView: false, calendarDateView: true, lastDateType: false, radioGroupTimeView: true},
   ];
 
-  @ViewChild('dateInfo') dateInfo;
+  @ViewChild('dateRangeInfo') dateRangeInfo;
+  @ViewChild('dateRangeText') dateRangeText;
+
+  animationState = 'in';
+
   get selectedDate1() {
     return moment(this.formGroup.get('_selectedDate1').value).format('MMM Do, YYYY');
   }
@@ -114,18 +120,6 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor, Aft
     this.formGroup.get('radioTime').disable({onlySelf: true});
     this.formGroup.get('fromTime').disable({onlySelf: true});
     this.formGroup.get('toTime').disable({onlySelf: true});
-
-    // this.formGroup.get('includeToday').disable({onlySelf: true});
-    // this.formGroup.get('_selectedDate1').valueChanges.subscribe((val) => {
-    //   this.formGroup.get('dateRange').setValue(this.dateInfo.nativeElement.innerText);
-    // })
-    // this.formGroup.get('_selectedDate2').valueChanges.subscribe((val) => {
-    //   this.formGroup.get('dateRange').setValue(this.dateInfo.nativeElement.innerText);
-    // })
-  }
-
-  ngAfterViewInit() {
-    // this.formGroup.get('dateRange').setValue(this.dateInfo.nativeElement.innerText);
   }
 
   registerOnChange(fn: any): void {
@@ -139,10 +133,17 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor, Aft
     this.propagateChange(value);
   }
 
-  toogleModel(event) {
+
+  applyModel(event) {
     event.preventDefault();
     this.modelOpen = !this.modelOpen;
-    // set the
+    // set the value of dateRange
+    this.formGroup.get('dateRange').setValue(this.dateRangeInfo.nativeElement.innerText);
+  }
+
+  cancelModel(event) {
+    event.preventDefault();
+    this.modelOpen = !this.modelOpen;
   }
 
   onSelectDate1(event: any) {
@@ -221,5 +222,10 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor, Aft
     while (d !== '12:00 am');
 
     return data;
+  }
+
+  toogleModel(event) {
+    event.preventDefault();
+    this.modelOpen = !this.modelOpen;
   }
 }

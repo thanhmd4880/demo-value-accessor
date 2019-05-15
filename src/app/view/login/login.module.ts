@@ -22,6 +22,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatListModule} from '@angular/material/list';
 import {TodatehtmlPipe} from '../../todatehtml.pipe';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 const routes: Routes = [
   {path: '', component: LoginComponent}
 ];
