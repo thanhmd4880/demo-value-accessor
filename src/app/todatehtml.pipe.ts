@@ -17,12 +17,12 @@ export class TodatehtmlPipe implements PipeTransform {
       if (formGroupValue.dateInputType1 === 'fixed' && formGroupValue.dateInputType2 === 'fixed') {
         if (formGroupValue.radioTime == 1) {
           returnStr = `${this.selectedDate1} - ${this.selectedDate2}`;
-          if(!formGroupValue.allDay) {
+          if (!formGroupValue.allDay) {
             returnStr += ` (${this.fromTime} - ${this.toTime} each day)`;
           }
         }
-        if (formGroupValue.radioTime == 2){
-          if(formGroupValue.allDay) {
+        if (formGroupValue.radioTime == 2) {
+          if (formGroupValue.allDay) {
             returnStr = `${this.selectedDate1} - ${this.selectedDate2}`;
           } else {
             returnStr = `${this.selectedDate1} (${this.fromTime}) - ${this.selectedDate2} (${this.toTime})`;
@@ -37,10 +37,10 @@ export class TodatehtmlPipe implements PipeTransform {
           }
         }
         if (formGroupValue.radioTime == 2) {
-          if(formGroupValue.allDay) {
+          if (formGroupValue.allDay) {
             returnStr = `Today ${formGroupValue.dateOp1} ${formGroupValue.duration1} ${formGroupValue.period1} - ${this.selectedDate2}`;
-          }
-          else {
+          } else {
+            // tslint:disable-next-line:max-line-length
             returnStr = `Today ${formGroupValue.dateOp1} ${formGroupValue.duration1} ${formGroupValue.period1} (${this.fromTime}) - ${this.selectedDate2} (${this.toTime})`;
           }
         }
@@ -53,25 +53,28 @@ export class TodatehtmlPipe implements PipeTransform {
           }
         }
         if (formGroupValue.radioTime == 2) {
-          if(formGroupValue.allDay) {
+          if (formGroupValue.allDay) {
             returnStr = `${this.selectedDate1} - Today ${formGroupValue.dateOp2} ${formGroupValue.duration2} ${formGroupValue.period2}`;
-          }
-          else {
+          } else {
+            // tslint:disable-next-line:max-line-length
             returnStr = `${this.selectedDate1} (${this.fromTime}) - Today ${formGroupValue.dateOp2} ${formGroupValue.duration2} ${formGroupValue.period2} (${this.toTime})`;
           }
         }
       }
       if (formGroupValue.dateInputType1 === 'today' && formGroupValue.dateInputType2 === 'today') {
         if (formGroupValue.radioTime == 1) {
+          // tslint:disable-next-line:max-line-length
           returnStr = `Today ${formGroupValue.dateOp1} ${formGroupValue.duration1} ${formGroupValue.period1} - Today ${formGroupValue.dateOp2} ${formGroupValue.duration2} ${formGroupValue.period2}`;
           if (!formGroupValue.allDay) {
             returnStr += ` (${this.fromTime} - ${this.toTime} each day)`;
           }
         }
         if (formGroupValue.radioTime == 2) {
-          if(formGroupValue.allDay) {
+          if (formGroupValue.allDay) {
+            // tslint:disable-next-line:max-line-length
             returnStr = `Today ${formGroupValue.dateOp1} ${formGroupValue.duration1} ${formGroupValue.period1} - Today ${formGroupValue.dateOp2} ${formGroupValue.duration2} ${formGroupValue.period2}`;
           } else {
+            // tslint:disable-next-line:max-line-length
             returnStr = `Today ${formGroupValue.dateOp1} ${formGroupValue.duration1} ${formGroupValue.period1} (${this.fromTime}) - Today ${formGroupValue.dateOp2} ${formGroupValue.duration2} ${formGroupValue.period2} (${this.toTime})`;
           }
         }
@@ -114,33 +117,23 @@ export class TodatehtmlPipe implements PipeTransform {
   }
 
   get isNotIncludeDetailDate() {
-    return this.formatView.find(fv => fv.value === this.formGroupValue.dateTimeType)['lastDateType'];
+    return this.formatView.find(fv => fv.value === this.formGroupValue.dateTimeType).lastDateType;
   }
 
   get isIncludeTodayCheckedView() {
-    return this.formatView.find(fv => fv.value === this.formGroupValue.dateTimeType)['toDateView'];
+    return this.formatView.find(fv => fv.value === this.formGroupValue.dateTimeType).toDateView;
   }
 
   get isIncludeCalendarView() {
-    return this.formatView.find(fv => fv.value === this.formGroupValue.dateTimeType)['calendarDateView'];
+    return this.formatView.find(fv => fv.value === this.formGroupValue.dateTimeType).calendarDateView;
   }
 
-  // get isIncludeTodayChecked() {
-  //   return this.formGroup.get('includeToday').value;
-  // }
-
   get isIncludeRadioTimeGroupView() {
-    return this.formatView.find(fv => fv.value === this.formGroupValue.dateTimeType)['radioGroupTimeView'];
+    return this.formatView.find(fv => fv.value === this.formGroupValue.dateTimeType).radioGroupTimeView;
   }
 
   get dateTypeDisplayName() {
-    return this.dateTypeOptions.find(option => option.value === this.formGroupValue.dateTimeType)['displayName'];
+    return this.dateTypeOptions.find(option => option.value === this.formGroupValue.dateTimeType).displayName;
   }
-
-  // get isIncludeTodayChecked() {
-  //   return this.formGroup.get('includeToday').value;
-  // }
-
-
 
 }

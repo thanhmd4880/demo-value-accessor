@@ -1,7 +1,8 @@
 import {AfterViewInit, Component, forwardRef, OnInit, ViewChild} from '@angular/core';
 import {ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validators} from '@angular/forms';
 import * as moment from 'moment';
-import { SlideInOutAnimation } from '../../animation/slide-in-out';
+import {SlideInOutAnimation} from '../../animation/slide-in-out';
+
 export const SELECT_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => DateTimeRangeComponent),
@@ -22,7 +23,10 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
     INCLUDETODAYVIEW: 'toDateView',
     INCLUDECALENDARVIEW: 'calendarDateView'
   };
-  constructor() { }
+
+  constructor() {
+  }
+
   formGroup: FormGroup;
   dateTypeOptions = [
     {displayName: 'Fixed', value: 'fixed'},
@@ -62,9 +66,11 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
   get selectedDate2() {
     return moment(this.formGroup.get('_selectedDate2').value).format('MMM Do, YYYY');
   }
+
   get fromTime() {
     return this.formGroup.get('fromTime').value;
   }
+
   get toTime() {
     return this.formGroup.get('toTime').value;
   }
@@ -94,7 +100,8 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
   }
 
 
-  private propagateChange = (_: any) => { };
+  private propagateChange = (_: any) => {
+  }
 
   ngOnInit() {
     this.formGroup = new FormGroup({
@@ -112,7 +119,7 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
       _selectedDate2: new FormControl(new Date(`${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`)),
       allDay: new FormControl(true),
       radioTime: new FormControl('1'),
-      fromTime: new FormControl( '00:00 am'),
+      fromTime: new FormControl('00:00 am'),
       toTime: new FormControl('00:00 am'),
       includeToday: new FormControl(false)
     });
@@ -149,6 +156,7 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
   onSelectDate1(event: any) {
     this.formGroup.get('_selectedDate1').setValue(event);
   }
+
   onSelectDate2(event: any) {
     this.formGroup.get('_selectedDate2').setValue(event);
   }
@@ -177,10 +185,6 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
     this.formGroup.get('_selectedDate1').setValue(dateValue.toDate());
   }
 
-  // enableView(value, view) {
-  //   return this.formatView.find((fView) => fView.value === value)[view];
-  // }
-
   get dateTimeType() {
     return this.formGroup.get('dateTimeType').value;
   }
@@ -203,7 +207,7 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
   }
 
   handleChangeTime(type, event) {
-    if(type === 'fromTime') {
+    if (type === 'fromTime') {
       this.formGroup.get('fromTime').setValue(event.value);
     } else if (type === 'toTime') {
       this.formGroup.get('toTime').setValue(event.value);
