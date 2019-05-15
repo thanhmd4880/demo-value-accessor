@@ -127,6 +127,75 @@ export class DateTimeRangeComponent implements OnInit, ControlValueAccessor {
     this.formGroup.get('radioTime').disable({onlySelf: true});
     this.formGroup.get('fromTime').disable({onlySelf: true});
     this.formGroup.get('toTime').disable({onlySelf: true});
+
+    // {displayName: 'Fixed', value: 'fixed'},
+    // {displayName: 'Last 7 days', value: 'last7days'},
+    // {displayName: 'Last 14 days', value: 'last14days'},
+    // {displayName: 'Today', value: 'today'},
+    // {displayName: 'Yesterday', value: 'yesterday'},
+    // {displayName: 'This week to date (starts Sunday)', value: 'thisweek_todate_sunday'},
+    // {displayName: 'Last week (starts Monday)', value: 'lastweek_monday'},
+    // {displayName: 'This year to date', value: 'thisyear_todate'},
+    // {displayName: 'Last year', value: 'lastyear'},
+    // {displayName: 'Advanced', value: 'advanced'},
+
+    this.formGroup.get('dateTimeType').valueChanges.subscribe(changes => {
+      const dateTimeType = this.formGroup.get('dateTimeType').value;
+      const currentFromDate = new Date(`${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`);
+      const yesterday = moment(currentFromDate).subtract(1, 'days');
+      let newDate = null;
+      if (dateTimeType === 'fixed' || dateTimeType === 'advanced' ) {
+        this.formGroup.get('_selectedDate1').setValue(currentFromDate);
+        this.formGroup.get('_selectedDate2').setValue(currentFromDate);
+      }
+      if (dateTimeType === 'last7days') {
+        newDate = moment(currentFromDate).subtract(7, 'days');
+        this.formGroup.get('_selectedDate1').setValue(newDate.toDate());
+        this.formGroup.get('_selectedDate2').setValue(yesterday);
+      }
+      if (dateTimeType === 'last14days') {
+        newDate = moment(currentFromDate).subtract(14, 'days');
+        this.formGroup.get('_selectedDate1').setValue(newDate.toDate());
+        this.formGroup.get('_selectedDate2').setValue(yesterday);
+      }
+      if (dateTimeType === 'today') {
+        this.formGroup.get('_selectedDate1').setValue(currentFromDate);
+        this.formGroup.get('_selectedDate2').setValue(null);
+      }
+      if (dateTimeType === 'yesterday') {
+        newDate = moment(currentFromDate).subtract(1, 'days');
+        this.formGroup.get('_selectedDate1').setValue(newDate.toDate());
+        this.formGroup.get('_selectedDate2').setValue(null);
+      }
+      if (dateTimeType === 'thisweek_todate_sunday') {
+        newDate = moment(currentFromDate).startOf('isoWeek').subtract(1, 'days');
+        this.formGroup.get('_selectedDate1').setValue(newDate.toDate());
+        this.formGroup.get('_selectedDate2').setValue(yesterday);
+      }
+      if (dateTimeType === 'lastweek_monday') {
+        newDate = moment(currentFromDate).subtract(1, 'week').startOf('isoWeek');
+        this.formGroup.get('_selectedDate1').setValue(newDate.toDate());
+        this.formGroup.get('_selectedDate2').setValue(yesterday);
+      }
+      if (dateTimeType === 'thisyear_todate') {
+        newDate = moment(currentFromDate).startOf('year');
+        this.formGroup.get('_selectedDate1').setValue(newDate.toDate());
+        this.formGroup.get('_selectedDate2').setValue(yesterday);
+      }
+      if (dateTimeType === 'lastyear') {
+        newDate = moment(currentFromDate).subtract(1, 'year').startOf('year');
+        const endDate = moment(currentFromDate).subtract(1, 'year').endOf('year');
+        this.formGroup.get('_selectedDate1').setValue(newDate.toDate());
+        this.formGroup.get('_selectedDate2').setValue(endDate.toDate());
+      }
+    });
+
+    this.formGroup.get('includeToday').valueChanges.subscribe(changes => {
+      const currentToDate = new Date(`${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`);
+      if (changes) {
+        this.formGroup.get('_selectedDate2').setValue(currentToDate);
+      }
+    });
   }
 
   registerOnChange(fn: any): void {

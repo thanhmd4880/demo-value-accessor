@@ -195,7 +195,7 @@
 
       <div class="row" fxFlex="row" fxFlexAlign="end center" style="display: flex; justify-content: flex-end; margin-top: 10px">
         <button (click)="cancelModel($event)" mat-flat-button>CANCEL</button>
-        <button class="primary-color" (click)="applyModel($event)" mat-flat-button>APPLY</button>
+        <button class="primary-color" [disabled]="formGroup.get('_selectedDate1').value>formGroup.get('_selectedDate2').value" (click)="applyModel($event)" mat-flat-button>APPLY</button>
       </div>
     </div>
 
