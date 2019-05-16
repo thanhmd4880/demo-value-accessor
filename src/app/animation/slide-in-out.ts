@@ -5,17 +5,17 @@ import { trigger, state, style, transition,
 export const SlideInOutAnimation = [
   trigger('slideInOut', [
     state('in', style({
-      'max-height': '500px', 'opacity': '1', 'visibility': 'visible'
+      'height': '42px', 'opacity': '1', 'visibility': 'visible'
     })),
     state('out', style({
-      'max-height': '0px', 'opacity': '0', 'visibility': 'hidden'
+      'height': '0px', 'opacity': '0', 'visibility': 'hidden'
     })),
     transition('in => out', [group([
         animate('400ms ease-in-out', style({
           'opacity': '0'
         })),
         animate('600ms ease-in-out', style({
-          'max-height': '0px'
+          'height': '0px'
         })),
         animate('700ms ease-in-out', style({
           'visibility': 'hidden'
@@ -27,7 +27,7 @@ export const SlideInOutAnimation = [
           'visibility': 'visible'
         })),
         animate('600ms ease-in-out', style({
-          'max-height': '500px'
+          'height': '42px'
         })),
         animate('800ms ease-in-out', style({
           'opacity': '1'
